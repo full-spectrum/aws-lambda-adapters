@@ -18,7 +18,7 @@
      :server-name    (get req-ctx "domainName" "")
      :remote-addr    (get-in req-ctx ["identity" "sourceIp"] "")
      :uri            (get event "path" "/")
-     :body           (-> (get event "body" "")
+     :body           (-> (or (get event "body") "")
                          (.getBytes)
                          io/input-stream)
      ;; API gateway already parsed query params into a map causing
