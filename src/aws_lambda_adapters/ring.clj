@@ -17,7 +17,7 @@
     {:server-port    (str->int (get headers "x-forwarded-port"))
      :server-name    (get req-ctx "domainName" "")
      :remote-addr    (get-in req-ctx ["identity" "sourceIp"] "")
-     :uri            (get event "path" "/")
+     :uri            (get event "resource" "/")
      :body           (-> (or (get event "body") "")
                          (.getBytes)
                          io/input-stream)
