@@ -22,7 +22,7 @@
   "
   [resource path-params]
   (try
-    (str/replace resource #"\{[a-z]+\}" (update-keys path-params #(str "{" % "}")))
+    (str/replace resource #"\{[a-zA-Z0-9-_]+\}" (update-keys path-params #(str "{" % "}")))
     (catch NullPointerException e
       (throw (ex-info "The path variable from resource could not be found in the path parameter map in the request." {} e)))))
 
