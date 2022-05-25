@@ -9,6 +9,20 @@
   (:import [java.io InputStream File]
            [clojure.lang ISeq]))
 
+(defn resource-path-params->uri
+  "Constructs an URI from a resource (string) and a map containing path parameters.
+
+  Input:
+  \"/example/resource/{id}/{type}\"
+  {\"id\" \"1234\"
+   \"type\" \"foo\"}
+
+  Output:
+  \"/example/resource/1234/foo\"
+  "
+  [resource path-params]
+  (str/replace resource #"\{[a-z]+\}" (update-keys path-params #(str "{" % "}"))))
+
 (defn api-gw-proxy-event->request
   "Transform AWS API Gateway event to Ring a request."
   [event ctx]
@@ -17,7 +31,7 @@
     {:server-port    (str->int (get headers "x-forwarded-port"))
      :server-name    (get req-ctx "domainName" "")
      :remote-addr    (get-in req-ctx ["identity" "sourceIp"] "")
-     :uri            (get event "resource" "/")
+     :uri            (resource-path-params->uri (get event "resource" "/") (get event "pathParameters"))
      :body           (-> (or (get event "body") "")
                          (.getBytes)
                          io/input-stream)
