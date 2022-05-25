@@ -24,8 +24,7 @@
   (try
     (str/replace resource #"\{[a-z]+\}" (update-keys path-params #(str "{" % "}")))
     (catch NullPointerException e
-      (throw (ex-info "The path variable from resource could not be found in the path parameter map in the request."
-                      {:cause "Nullpointer exception, path variable is missing in parameter map."})))))
+      (throw (ex-info "The path variable from resource could not be found in the path parameter map in the request." {} e)))))
 
 (defn api-gw-proxy-event->request
   "Transform AWS API Gateway event to Ring a request."
