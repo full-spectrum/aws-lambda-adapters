@@ -3,5 +3,5 @@
   :url "https://github.com/full-spectrum/aws-lambda-adapters"
   :license {:name "The MIT License"
             :url "http://opensource.org/licenses/MIT"}
-  :dependencies [[org.clojure/clojure "1.10.0"]
+  :dependencies [[org.clojure/clojure "1.11.1"]
                  [org.clojure/data.json "2.4.0"]])
